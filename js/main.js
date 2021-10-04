@@ -1,4 +1,5 @@
 import {getRandom, checkMaxLength} from './utils.js';
+import './picDescription.js';
 
 getRandom();
 
