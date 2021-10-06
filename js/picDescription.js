@@ -1,4 +1,4 @@
-import { getRandomInteger } from './utils.js';
+import { getRandomInteger,  getRandomElement } from './utils.js';
 
 const DESCRIPTION = [
   'моя лучшая фотография с лейкой - на даче',
@@ -6,6 +6,8 @@ const DESCRIPTION = [
   'посмотрите на  котика и забудьте о ваших проблемах',
   'лучше фотографии котика только сам котик ',
   'вы частно спрашиваете как мне удается так круто выглядеть. Секрет прост - деньги',
+  'Это ж кто до такого додумался...',
+  'Давайте сделаем наши дома этой осенью ещё уютнее - Специально для вас мы подготовили много интересных мастер классов, которые можно будет посмотреть в аккаунте',
 ];
 
 const MESSAGE = [
@@ -29,26 +31,40 @@ const NAMES = [
   'Гек',
 ];
 
-const getRandomElement = (elements) => elements[getRandomInteger(1, elements.length - 1)];
 
-const createDiscript = () => {
-  const picDescription = {
-    id: getRandomInteger(0, 25),
-    url:`photos/${getRandomInteger(0,25)} .jpg`,
-    description: getRandomElement(DESCRIPTION),
-    likes: getRandomInteger(15, 200),
+const createComment = () => {
+  const picAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
+  const picMessage = getRandomElement(MESSAGE);
+  const picName = getRandomElement(NAMES);
+  const userId = getRandomInteger(1, 200); //вот тут то они  не уникальные - все равно не понимаю как правильно сделать...
+
+  return {
+    id: userId,
+    avatar: picAvatar,
+    message: picMessage,
+    name: picName,
   };
-
-  const comment = {
-    id: getRandomInteger(0, 200),
-    avatar: `img/avatar-${getRandomInteger(1,6)}.svg`,
-    message: getRandomElement(MESSAGE),
-    name: getRandomElement(NAMES),
-  };
-
-  return {picDescription, comment};
 };
 
-const picDescriptions = new Array(25).fill(null).map(() => createDiscript());
 
-picDescriptions;
+const createDescription = (index) => {
+  const picDescription = getRandomElement(DESCRIPTION);
+  const likeCount = getRandomInteger(15, 200);
+  const commenstCount = getRandomInteger(1, 6);
+  const getComments = (amount) => Array.from( { length: amount }, createComment);
+  const commentArray = getComments(commenstCount);
+  index++;
+
+  return {
+    id: index,
+    url:`photos/${index}.jpg`,
+    description: picDescription,
+    likes: likeCount,
+    comment: [commentArray],
+  };
+};
+
+const generatePictures = (amount) => Array.from( { length: amount }).map((element, index) => createDescription(index));
+
+export { generatePictures };
+
