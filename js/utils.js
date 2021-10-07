@@ -13,18 +13,9 @@ const checkMaxLength = (comment, maxLength = 140) => comment.toString().length <
 
 const getRandomElement = (elements) => elements[getRandomInteger(1, elements.length - 1)];
 
-const createArray = (index) => {
-  const array = [];
-  for (let ik = 1; ik <= index; ik++) {
-    array.push(ik);
-  }
-  return array;
-};
-
 
 export {
   getRandomInteger,
   checkMaxLength,
-  getRandomElement,
-  createArray
+  getRandomElement
 };

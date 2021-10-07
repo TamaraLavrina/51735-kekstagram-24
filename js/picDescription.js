@@ -1,4 +1,4 @@
-import { getRandomInteger,  getRandomElement, createArray } from './utils.js';
+import { getRandomInteger,  getRandomElement } from './utils.js';
 
 const DESCRIPTION = [
   'моя лучшая фотография с лейкой - на даче',
@@ -32,7 +32,7 @@ const NAMES = [
 ];
 
 const USERS_NUMBER = 250;
-const usersIdsArr = createArray(USERS_NUMBER);
+const usersIdsArr = new Array(USERS_NUMBER).fill(null).map((item, index) => index);
 
 const createComment = () => {
   const picAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
@@ -46,7 +46,6 @@ const createComment = () => {
     name: picName,
   };
 };
-
 
 const createDescription = (index) => {
   const picDescription = getRandomElement(DESCRIPTION);
