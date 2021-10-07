@@ -1,4 +1,4 @@
-import { getRandomInteger,  getRandomElement } from './utils.js';
+import { getRandomInteger,  getRandomElement, createArray } from './utils.js';
 
 const DESCRIPTION = [
   'моя лучшая фотография с лейкой - на даче',
@@ -31,15 +31,16 @@ const NAMES = [
   'Гек',
 ];
 
+const USERS_NUMBER = 250;
+const usersIdsArr = createArray(USERS_NUMBER);
 
 const createComment = () => {
   const picAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
   const picMessage = getRandomElement(MESSAGE);
   const picName = getRandomElement(NAMES);
-  const userId = getRandomInteger(1, 200); //вот тут то они  не уникальные - все равно не понимаю как правильно сделать...
 
   return {
-    id: userId,
+    id: usersIdsArr.pop(),
     avatar: picAvatar,
     message: picMessage,
     name: picName,
