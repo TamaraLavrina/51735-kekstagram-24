@@ -11,4 +11,11 @@ const getRandomInteger = (min, max) => {
 
 const checkMaxLength = (comment, maxLength = 140) => comment.toString().length <= maxLength;
 
-export {getRandomInteger, checkMaxLength};
+const getRandomElement = (elements) => elements[getRandomInteger(1, elements.length - 1)];
+
+
+export {
+  getRandomInteger,
+  checkMaxLength,
+  getRandomElement
+};
