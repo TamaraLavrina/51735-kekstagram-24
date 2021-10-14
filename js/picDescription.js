@@ -32,7 +32,7 @@ const NAMES = [
 ];
 
 const USERS_NUMBER = 250;
-const usersIdsArr = new Array(USERS_NUMBER).fill(null).map((item, index) => index);
+const usersIds = new Array(USERS_NUMBER).fill(null).map((_, index) => index);
 
 const createComment = () => {
   const picAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
@@ -40,31 +40,31 @@ const createComment = () => {
   const picName = getRandomElement(NAMES);
 
   return {
-    id: usersIdsArr.pop(),
+    id: usersIds.pop(),
     avatar: picAvatar,
     message: picMessage,
     name: picName,
   };
 };
 
+const getComments = (amount) => Array.from( { length: amount }, createComment);
+
 const createDescription = (index) => {
   const picDescription = getRandomElement(DESCRIPTION);
-  const likeCount = getRandomInteger(15, 200);
-  const commenstCount = getRandomInteger(1, 6);
-  const getComments = (amount) => Array.from( { length: amount }, createComment);
-  const commentArray = getComments(commenstCount);
-  index++;
+  const likes = getRandomInteger(15, 200);
+  const commentsCount = getRandomInteger(1, 6);
+  const comments = getComments(commentsCount);
 
   return {
     id: index,
     url:`photos/${index}.jpg`,
     description: picDescription,
-    likes: likeCount,
-    comment: [commentArray],
+    likes,
+    comments,
   };
 };
 
-const generatePictures = (amount) => Array.from( { length: amount }).map((element, index) => createDescription(index));
+const generatePictures = (amount) => Array.from( { length: amount }).map((_, index) => createDescription(index+1));
 
 export { generatePictures };
 
