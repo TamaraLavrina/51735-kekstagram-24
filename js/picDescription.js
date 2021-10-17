@@ -64,7 +64,7 @@ const createDescription = (index) => {
   };
 };
 
-const generatePictures = (amount) => Array.from( { length: amount }).map((_, index) => createDescription(index+1));
+const generatePics = (amount) => Array.from( { length: amount }).map((_, index) => createDescription(index+1));
 
-export { generatePictures };
+export { generatePics };
 
