@@ -1,6 +1,6 @@
 // import { getRandomInteger, checkMaxLength } from './utils.js';
-import { generatePictures } from './picDescription.js';
+// import { generatePics } from './picDescription.js';
+import { renderThumbnails } from './renderingThumbnails.js';
 
-const PICS_AMOUNT = 25;
-generatePictures(PICS_AMOUNT);
 
+renderThumbnails ();
