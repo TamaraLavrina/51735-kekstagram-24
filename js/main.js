@@ -1,7 +1,8 @@
 // import { getRandomInteger, checkMaxLength } from './utils.js';
 import { generatePics } from './picDescription.js';
-import { renderThumbnails } from './Thumbnails.js';
-import {onPictureClick }  from './showFullPicture.js';
+import { renderThumbnails } from './thumbnails.js';
+import { setPictureListener }  from './bigPicture.js';
+import { uploadPictureControl,  onUploadPictureControlclick } from './form.js';
 
 
 const PICS_AMOUNT = 25;
@@ -9,5 +10,5 @@ const pictures = generatePics(PICS_AMOUNT);
 
 renderThumbnails(pictures);
 
-const picturesContainer = document.querySelector('.pictures');
-picturesContainer.addEventListener('click', onPictureClick);
+setPictureListener(pictures);
+uploadPictureControl.addEventListener('click', onUploadPictureControlclick);

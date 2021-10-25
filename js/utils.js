@@ -13,13 +13,14 @@ const checkMaxLength = (comment, maxLength = 140) => comment.toString().length <
 
 const getRandomElement = (elements) => elements[getRandomInteger(1, elements.length - 1)];
 
+const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
+const isEnterKey = (evt) => evt.key === 'Enter';
 
 export {
   getRandomInteger,
   checkMaxLength,
   getRandomElement,
-  isEscapeKey
+  isEscapeKey,
+  isEnterKey
 };
