@@ -43,7 +43,8 @@ const renderComment = (comment) => {
   newComment.querySelector('.social__picture').src = comment.avatar;
   newComment.querySelector('.social__picture').alt = comment.name;
   newComment.querySelector('.social__text').textContent = comment.message;
-  commentsList.appendChild(newComment);};
+  commentsList.appendChild(newComment);
+};
 
 const renderBigPicture = ({url, likes, comments, description}) => {
   bigPic.src = url;
@@ -56,12 +57,14 @@ const renderBigPicture = ({url, likes, comments, description}) => {
 
 
 const onPictureClick = (evt, pictures) => {
-  evt.preventDefault();
-  if(!evt.target.closest('.picture')){
+
+  if (!evt.target.closest('.picture')){
     return;
   }
+
   const id = evt.target.closest('a').dataset.id;
-  const currentPhoto = pictures[id]; //c find() что то у меня не вышло, и еще id надо было куда то передать, сделала так
+  const currentPhoto = pictures.find((item) => item.id === Number(id));
+
   if (currentPhoto) {
     renderBigPicture(currentPhoto);
     openModal();
@@ -72,9 +75,11 @@ const onPictureClick = (evt, pictures) => {
 const setPictureListener = (data) => {
   picturesContainer.addEventListener('click', (evt) => onPictureClick(evt, data));
   picturesContainer.addEventListener('keydown', (evt) => {
+
     if (isEnterKey(evt)) {
       onPictureClick();
     }
+
   });
 
 };
