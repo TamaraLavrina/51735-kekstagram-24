@@ -1,16 +1,16 @@
 import { isEscapeKey } from './utils.js';
 import { isEnterKey } from './utils.js';
 
-
 const bigPicture = document.querySelector('.big-picture');
-const commentCount = bigPicture.querySelector('.social__comment-count');
-const loader = bigPicture.querySelector('.comments-loader');
+//const loader = bigPicture.querySelector('.comments-loader');
 const commentsList = bigPicture.querySelector('.social__comments');
 const commentItem = bigPicture.querySelector('.social__comment');
 const buttonClose =  bigPicture.querySelector('.big-picture__cancel');
 const picturesContainer = document.querySelector('.pictures');
+//const commentsShowCount = document.querySelector('.comments-show-count'); //hh
 
 const onPopupEscKeydown = (evt) => {
+
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeModal();
@@ -20,12 +20,9 @@ const onPopupEscKeydown = (evt) => {
 
 const openModal = () => {
   bigPicture.classList.remove('hidden');
-  commentCount.classList.add('hidden');
-  loader.classList.add('hidden');
   document.body.classList.add('modal-open');
   buttonClose.addEventListener('click', closeModal);
   document.addEventListener('keydown', onPopupEscKeydown );
-
 };
 
 function closeModal() {
@@ -37,6 +34,7 @@ const bigPic = bigPicture.querySelector('.big-picture__img img');
 const bigPicLikes = bigPicture.querySelector('.likes-count');
 const bigPicComments = bigPicture.querySelector('.comments-count');
 const bigPicDescription = bigPicture.querySelector('.social__caption');
+
 
 const renderComment = (comment) => {
   const newComment = commentItem.cloneNode(true);
@@ -52,6 +50,7 @@ const renderBigPicture = ({url, likes, comments, description}) => {
   bigPicComments.textContent = comments.length;
   bigPicDescription.textContent = description;
   commentsList.innerHTML='';
+
   comments.map((element) => renderComment(element));
 };
 
@@ -63,13 +62,14 @@ const onPictureClick = (evt, pictures) => {
   }
 
   const id = evt.target.closest('a').dataset.id;
+
   const currentPhoto = pictures.find((item) => item.id === Number(id));
 
   if (currentPhoto) {
     renderBigPicture(currentPhoto);
     openModal();
-  }
 
+  }
 };
 
 const setPictureListener = (data) => {
@@ -79,9 +79,7 @@ const setPictureListener = (data) => {
     if (isEnterKey(evt)) {
       onPictureClick();
     }
-
   });
-
 };
 
 export { setPictureListener };
