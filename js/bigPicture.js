@@ -10,7 +10,6 @@ const picturesContainer = document.querySelector('.pictures');
 const shownCommentsCounter = bigPicture.querySelector('.comments-count--shown');
 const allComments = bigPicture.querySelector('.comments-count--all');
 const COMMENTS_TO_SHOW = 5;
-// const counter = 0;
 
 const onPopupEscKeydown = (evt) => {
 
@@ -46,17 +45,13 @@ const renderComment = (comment) => {
   commentsList.appendChild(newComment);
 };
 
-// let icount = 5;
+// let icount = 0;
 // function getNewComments(comments) {
-//   commentsList.innerHTML='';
 //   const start = icount;
 //   const end = start + COMMENTS_TO_SHOW;
 //   const shownComments = comments.slice(start, end);
-//   commentsList.innerHTML='';
 //   shownComments.map((element) => renderComment(element));
-//   Showcomments(shownComments);
 // }
-
 
 const Showcomments = (comments) => {
   const allCommentsToShow = comments.length;
@@ -65,17 +60,19 @@ const Showcomments = (comments) => {
     allComments.textContent = allCommentsToShow;
     loader.classList.add('hidden');
   } else {
-    shownCommentsCounter.textContent = COMMENTS_TO_SHOW;
+    shownCommentsCounter.textContent = COMMENTS_TO_SHOW;//описать обновление
     allComments.textContent = comments.length;
     loader.classList.remove('hidden');
     // loader.addEventListener('click', onLoaderButtonClick(comments));
   }
 };
 
-
-function onLoaderButtonClick( comments) {
-  comments.map((element) => renderComment(element));
-}
+// function onLoaderButtonClick(comments) {
+//   commentsList.innerHTML='';
+//   getNewComments(comments);
+//   Showcomments(comments);
+//   icount =+ COMMENTS_TO_SHOW;
+// }
 
 const renderBigPicture = ({url, likes, comments, description}) => {
   bigPic.src = url;
@@ -89,10 +86,8 @@ const renderBigPicture = ({url, likes, comments, description}) => {
     Showcomments(comments);
   } else {
     comments.slice(0, 5).map((element) => renderComment(element));
-    loader.addEventListener('click', onLoaderButtonClick( comments));
+    // loader.addEventListener('click', onLoaderButtonClick(comments));
   }
-
-
 };
 
 const onPictureClick = (evt, pictures) => {
@@ -107,7 +102,6 @@ const onPictureClick = (evt, pictures) => {
   if (currentPhoto) {
     renderBigPicture(currentPhoto);
     openModal();
-
   }
 };
 
