@@ -17,10 +17,14 @@ const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
+const checkIfDuplicate = (w) => new Set(w).size !== w.length;
+
+
 export {
   getRandomInteger,
   checkMaxLength,
   getRandomElement,
   isEscapeKey,
-  isEnterKey
+  isEnterKey,
+  checkIfDuplicate
 };
