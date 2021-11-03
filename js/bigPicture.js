@@ -79,7 +79,7 @@ const renderBigPicture = ({url, likes, comments, description}) => {
   bigPicLikes.textContent = likes;
   bigPicComments.textContent = comments.length;
   bigPicDescription.textContent = description;
-  commentsList.innerHTML='';
+  commentsList.innerHTML = '';
 
   if (comments.length <= COMMENTS_TO_SHOW) {
     comments.map((element) => renderComment(element));
