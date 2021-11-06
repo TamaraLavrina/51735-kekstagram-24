@@ -1,4 +1,6 @@
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, showErrorCard } from './utils.js';
+import { showSuccesCard } from './utils.js';
+import { sendData } from'./data.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -94,12 +96,22 @@ function onCloseButtonClick() {
   hashtagInput.removeEventListener('input', onHashtagInput);
 }
 
-
-uploadFile.addEventListener('change', onUploadFileChange);
-
 const initUploadFile = () => {
   uploadFile.addEventListener('change', onUploadFileChange);
 };
 
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => { onSuccess(); form.reset(); showSuccesCard(); },
+      () => showErrorCard(),
+      new FormData(evt.target),
+    );
+  });
+};
 
-export { initUploadFile };
+export { initUploadFile,
+  onCloseButtonClick,
+  setUserFormSubmit
+};

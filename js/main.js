@@ -1,15 +1,14 @@
-// import { getRandomInteger, checkMaxLength } from './utils.js';
-import { generatePics } from './picDescription.js';
 import { renderThumbnails } from './thumbnails.js';
 import { setPictureListener }  from './bigPicture.js';
-import  { setImageEditor }  from './imageEditor.js';
-import  { initUploadFile }  from './form.js';
+import { setImageEditor }  from './imageEditor.js';
+import { initUploadFile, setUserFormSubmit, onCloseButtonClick }  from './form.js';
+import { getData } from'./data.js';
 
-const PICS_AMOUNT = 25;
-const pictures = generatePics(PICS_AMOUNT);
+getData((photos) => {
+  renderThumbnails(photos);
+  setPictureListener(photos);
+});
 
-renderThumbnails(pictures);
-setPictureListener(pictures);
 initUploadFile();
 setImageEditor();
-
+setUserFormSubmit(onCloseButtonClick);
