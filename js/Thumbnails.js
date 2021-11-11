@@ -28,4 +28,4 @@ const renderThumbnails = (photos) => {
   pictures.appendChild(fragment);
 };
 
-export { renderThumbnails };
+export { renderThumbnails, pictures };

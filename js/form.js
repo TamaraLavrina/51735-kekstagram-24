@@ -1,4 +1,8 @@
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, showErrorCard } from './utils.js';
+import { showSuccesCard } from './utils.js';
+import { sendData } from'./data.js';
+import { resetSize, removeSlider } from'./image-editor.js';
+import { initImageEditor }  from './image-editor.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -81,6 +85,8 @@ function onUploadFileChange () {
   hashtagInput.addEventListener('input',  onHashtagInput);
   descriptionInput.addEventListener('input', descriptionInputIsValid);
   closeButton.addEventListener('click', onCloseButtonClick);
+  initImageEditor();
+  // effectsList.addEventListener('change', onEffectsListChange);
 }
 
 function onCloseButtonClick() {
@@ -88,18 +94,30 @@ function onCloseButtonClick() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadEscKeydown);
   form.reset();
+  resetSize();
+  removeSlider();
   descriptionInput.removeEventListener('input', descriptionInputIsValid);
   closeButton.removeEventListener('click', onCloseButtonClick);
   previewImg.className = 'effects__preview--none';
   hashtagInput.removeEventListener('input', onHashtagInput);
 }
 
-
-uploadFile.addEventListener('change', onUploadFileChange);
-
 const initUploadFile = () => {
   uploadFile.addEventListener('change', onUploadFileChange);
 };
 
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => { onSuccess(); form.reset(); showSuccesCard(); },
+      () => showErrorCard(),
+      new FormData(evt.target),
+    );
+  });
+};
 
-export { initUploadFile };
+export { initUploadFile,
+  onCloseButtonClick,
+  setUserFormSubmit
+};
