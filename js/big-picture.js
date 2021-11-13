@@ -1,5 +1,4 @@
 import { isEscapeKey } from './utils.js';
-// import { isEnterKey } from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const loader = bigPicture.querySelector('.social__comments-loader');
@@ -13,7 +12,6 @@ const allComments = bigPicture.querySelector('.comments-count--all');
 const COMMENTS_TO_SHOW = 5;
 const bigPic = bigPicture.querySelector('.big-picture__img img');
 const bigPicLikes = bigPicture.querySelector('.likes-count');
-// const bigPicComments = bigPicture.querySelector('.comments-count');
 const bigPicDescription = bigPicture.querySelector('.social__caption');
 
 const onPopupEscKeydown = (evt) => {
@@ -23,12 +21,12 @@ const onPopupEscKeydown = (evt) => {
   }
 };
 
-const openModal = () => {
+function openModal() {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   buttonClose.addEventListener('click', closeModal);
   document.addEventListener('keydown', onPopupEscKeydown );
-};
+}
 
 const renderComment = (comment) => {
   const newComment = commentItem.cloneNode(true);
@@ -42,11 +40,12 @@ const renderComment = (comment) => {
 let displayedComments = COMMENTS_TO_SHOW;
 const onLoaderCommentsClick = (comments) => {
   const addComments = comments.slice(displayedComments, displayedComments + COMMENTS_TO_SHOW);
-  const shownComments = displayedComments  + COMMENTS_TO_SHOW;
+  displayedComments = displayedComments  + COMMENTS_TO_SHOW;
   addComments.map((element) => renderComment(element));
-  shownCommentsCounter.textContent = shownComments;
+  shownCommentsCounter.textContent = displayedComments;
+  console.log(displayedComments);//здесь накапливается после нескольких модальных окон с большим кол-вом комментов
 
-  if (shownComments >= comments.length) {
+  if (displayedComments >= comments.length) {
     shownCommentsCounter.textContent = comments.length;
     loader.classList.add('hidden');
   }
@@ -56,29 +55,33 @@ const onLoaderCommentsClick = (comments) => {
 const renderBigPicture = ({url, likes, comments, description}) => {
   bigPic.src = url;
   bigPicLikes.textContent = likes;
-  // bigPicComments.textContent = comments.length;
   bigPicDescription.textContent = description;
   commentsList.innerHTML = '';
   allComments.textContent = comments.length;
   displayedComments = COMMENTS_TO_SHOW;
 
-
-  if (comments.lenght <= COMMENTS_TO_SHOW) {
+  if (comments.length <= COMMENTS_TO_SHOW) {
     comments.map((element) => renderComment(element));
     loader.classList.add('hidden');
     commentsCounterBlock.classList.add('hidden');
   } else {
+    console.log('комментов много - повесим слушатель на кнопку ');
     const firstComments = comments.slice(0, COMMENTS_TO_SHOW);
     firstComments.map((element) => renderComment(element));
+    shownCommentsCounter.textContent = displayedComments;
     loader.addEventListener('click', () => onLoaderCommentsClick(comments));
   }
 };
 
 function closeModal() {
   bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
-  loader.removeEventListener('click', () => onLoaderCommentsClick());
-  displayedComments = COMMENTS_TO_SHOW;//как обнулить значение? оно сохраняется в новом большом фото
+  loader.classList.remove('hidden');// по закрытию модалки возвращаю эту кнопку назад и ловлю ошибку неудаленного слушателя
+  commentsCounterBlock.classList.remove('hidden');
+  displayedComments = COMMENTS_TO_SHOW;
+  console.log(displayedComments);
+  loader.removeEventListener('click', onLoaderCommentsClick());
 }
 
 const onPictureClick = (evt, pictures) => {

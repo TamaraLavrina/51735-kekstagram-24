@@ -96,6 +96,8 @@ const debounce = (callback, timeoutDelay=DELAY) => {
   };
 };
 
+const ERROR_MESSAGE = 'Не удалось загрузить данные. Попробуйте ещё раз';
+
 export {
   getRandomInteger,
   checkMaxLength,
@@ -105,5 +107,6 @@ export {
   showAlert,
   showSuccesCard,
   showErrorCard,
-  debounce
+  debounce,
+  ERROR_MESSAGE
 };

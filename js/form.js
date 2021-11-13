@@ -1,6 +1,6 @@
 import { isEscapeKey, showErrorCard } from './utils.js';
 import { showSuccesCard } from './utils.js';
-import { sendData } from'./data.js';
+import { sendData } from'./api.js';
 import { resetSize, removeSlider } from'./image-editor.js';
 import { initImageEditor }  from './image-editor.js';
 

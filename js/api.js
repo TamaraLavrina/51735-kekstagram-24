@@ -1,18 +1,18 @@
-import { showAlert } from './utils.js';
+const API_URL = 'https://24.javascript.pages.academy/kekstagram';
 
-const getData = (onSuccess) => {
-  fetch('https://24.javascript.pages.academy/kekstagram/data')
+const getData = (onSuccess, onFail) => {
+  fetch(`${API_URL}/data`)
     .then((response) => response.json())
     .then(onSuccess)
     .catch(() => {
-      showAlert('Не удалось загрузить данные. Попробуйте ещё раз');
+      onFail();
     });
 };
 
 
 function sendData(onSuccess, onFail, body) {
   return fetch(
-    'https://245.javascript.pages.academy/kekstagram',
+    API_URL,
     {
       method: 'POST',
       body,
@@ -29,6 +29,5 @@ function sendData(onSuccess, onFail, body) {
       onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 }
-
 
 export { getData, sendData };
