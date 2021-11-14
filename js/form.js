@@ -1,8 +1,17 @@
-import { isEscapeKey, showErrorCard } from './utils.js';
-import { showSuccesCard } from './utils.js';
+import { isEscapeKey, showErrorCard, showSuccesCard } from './utils.js';
+import { resetSize, removeSlider, initImageEditor } from'./image-editor.js';
 import { sendData } from'./api.js';
-import { resetSize, removeSlider } from'./image-editor.js';
-import { initImageEditor }  from './image-editor.js';
+
+const DESCRIPTION_MAXLENGTH = 140;
+const MAX_HASHTAGS_VALUE = 5;
+const regex = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const validationErrors = {
+  regex: 'хэш-тег начинается с # (решётка), cостоит из букв и чисел и не может содержать пробелы и спецсимволы (#, @, $ и т. п., знаки пунктиуации, эмодзи), ' +
+  'максимальная длина хэш-тега 20 символов, включая #',
+  duplicate: 'один и тот же хэш-тег не может быть использован дважды',
+  lengthLimit: 'нельзя указать больше пяти хэш-тегов',
+  valid: '',
+};
 
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -11,17 +20,6 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const uploadFile = form.querySelector('#upload-file');
 const descriptionInput = form.querySelector('.text__description');
 const previewImg = form.querySelector('.img-upload__preview img');
-const regex = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-
-const DESCRIPTION_MAXLENGTH = 140;
-const MAX_HASHTAGS_VALUE = 5;
-const validationErrors = {
-  regex: 'хэш-тег начинается с # (решётка), cостоит из букв и чисел и не может содержать пробелы и спецсимволы (#, @, $ и т. п., знаки пунктиуации, эмодзи), ' +
-  'максимальная длина хэш-тега 20 символов, включая #',
-  duplicate: 'один и тот же хэш-тег не может быть использован дважды',
-  lengthLimit: 'нельзя указать больше пяти хэш-тегов',
-  valid: '',
-};
 
 const onUploadEscKeydown = (evt) => {
   if (isEscapeKey(evt) && !evt.target.closest('.img-upload__text')) {

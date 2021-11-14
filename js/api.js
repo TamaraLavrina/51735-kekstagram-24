@@ -9,25 +9,22 @@ const getData = (onSuccess, onFail) => {
     });
 };
 
-
-function sendData(onSuccess, onFail, body) {
-  return fetch(
-    API_URL,
-    {
-      method: 'POST',
-      body,
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        throw new Error();
-      }
-    })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
-    });
-}
+const sendData = (onSuccess, onFail, body) => fetch(
+  API_URL,
+  {
+    method: 'POST',
+    body,
+  },
+)
+  .then((response) => {
+    if (response.ok) {
+      onSuccess();
+    } else {
+      throw new Error();
+    }
+  })
+  .catch(() => {
+    onFail('Не удалось отправить форму. Попробуйте ещё раз');
+  });
 
 export { getData, sendData };
