@@ -1,13 +1,13 @@
-import { renderThumbnails } from './thumbnails.js';
+import { renderThumbnails } from './miniatures.js';
 import { debounce} from './utils.js';
+
+const RANDOM_NUMBER_PHOTO = 10;
 
 const filtersForm = document.querySelector('.img-filters__form');
 const pictures = document.querySelector('.pictures');
 const filters = document.querySelector('.img-filters');
 const buttons = filtersForm.querySelectorAll('.img-filters__button');
-const RANDOM_NUMBER_PHOTO = 10;
 const ACTIVE_CLASS = 'img-filters__button--active';
-
 
 const removeOldPics = () => {
   Array.from(pictures.children).forEach((item) => {
@@ -35,6 +35,7 @@ const onFilterFormChange = (evt, data) => {
   if (!evt.target.closest('.img-filters__button')){
     return;
   }
+
   const copyData = data.slice();
   buttons.forEach((button) => button.classList.remove(ACTIVE_CLASS));
   evt.target.classList.add(ACTIVE_CLASS);

@@ -12,7 +12,6 @@ const previewUserPhoto = () => {
   }
 };
 
-
 const uploadUserPhoto = () => {
   userPhotoUpload.addEventListener('change', previewUserPhoto);
 };

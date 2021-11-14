@@ -1,43 +1,8 @@
-const EFFECTS_DATA = {
-  'chrome': {
-    filter: 'grayscale',
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
+import{ EFFECTS_DATA } from './effects-data.js';
 
-  'sepia': {
-    filter: 'sepia',
-    min: 0,
-    max: 1,
-    start: 1,
-    step: 0.1,
-  },
-
-  'marvin': {
-    filter: 'invert',
-    min: 0,
-    max: 100,
-    start: 100,
-    step: 1,
-  },
-
-  'phobos': {
-    filter: 'blur',
-    min: 0,
-    max: 3,
-    start: 3,
-    step: 0.1,
-  },
-
-  'heat': {
-    filter: 'brightness',
-    min: 1,
-    max: 3,
-    start: 3,
-    step: 0.1,
-  },
-};
+const MAX_VALUE_DEFAULT = 100;
+const STEP = 25;
+const MIN_VALUE = 25;
 
 const form = document.querySelector('.img-upload__form');
 const sizeScaleControl = form.querySelector('.scale__control--value');
@@ -48,11 +13,7 @@ const sliderElement = form.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
 const sliderBar = form.querySelector('.img-upload__effect-level');
 const effectsList = form.querySelector('.effects__list');
-const MAX_VALUE_DEFAULT = 100;
-const STEP = 25;
-const MIN_VALUE = 25;
 
-// изменить размер изображения
 let sizeValue = sizeScaleControl.value;
 const increaseSize = () => {
   if (parseInt(sizeScaleControl.value, 10) !== MAX_VALUE_DEFAULT) {
@@ -63,21 +24,20 @@ const increaseSize = () => {
 };
 
 const decreaseSize =  () => {
-  if (parseInt(sizeScaleControl.value, 10) !== MIN_VALUE) { //линтер требует указать radix, поэтому оставила в параметрах
+  if (parseInt(sizeScaleControl.value, 10) !== MIN_VALUE) {
     sizeValue = `${parseInt(sizeValue, 10) - STEP}%`;
     previewImg.style.transform = `scale(${parseInt(sizeValue, 10) / MAX_VALUE_DEFAULT})`;
     sizeScaleControl.value = sizeValue;
   }
 };
 
-//cбросить размер до начального
 const resetSize = () => {
   sizeScaleControl.value = MAX_VALUE_DEFAULT;
   previewImg.style.transform = `scale(${ MAX_VALUE_DEFAULT/MAX_VALUE_DEFAULT })`;
   buttonPlus.removeEventListener('click', increaseSize);
   buttonMinus.removeEventListener('click', decreaseSize);
 };
-// поменять эффект
+
 const onEffectsListChange = (evt) => {
   const effect = evt.target.value;
   previewImg.className = `effects__preview--${effect}`;
@@ -104,7 +64,6 @@ const onEffectsListChange = (evt) => {
     start: EFFECTS_DATA[effect].start,
     step: EFFECTS_DATA[effect].step,
   });
-
 
   sliderElement.noUiSlider.on('update', (values, handle) => {
     effectLevel.value = values[handle];
