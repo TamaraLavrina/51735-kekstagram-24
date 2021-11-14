@@ -1,4 +1,4 @@
-import { renderThumbnails } from './thumbnails.js';
+import { renderThumbnails } from './miniatures.js';
 import { debounce} from './utils.js';
 
 const RANDOM_NUMBER_PHOTO = 10;

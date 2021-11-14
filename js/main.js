@@ -1,4 +1,4 @@
-import { renderThumbnails } from './thumbnails.js';
+import { renderThumbnails } from './miniatures.js';
 import { setPictureListener }  from './big-picture.js';
 import { initUploadFile, setUserFormSubmit, onCloseButtonClick }  from './form.js';
 import { getData } from'./api.js';
