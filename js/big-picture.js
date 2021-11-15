@@ -45,7 +45,7 @@ const renderComment = (comment) => {
 const onLoaderCommentsClick = () => {
   const addComments = currentComments.slice(displayedComments, displayedComments + COMMENTS_TO_SHOW);
   displayedComments = displayedComments + COMMENTS_TO_SHOW;
-  addComments.map((element) => renderComment(element));
+  addComments.map(renderComment);
   shownCommentsCounter.textContent = displayedComments;
 
   if (displayedComments >= currentComments.length) {
