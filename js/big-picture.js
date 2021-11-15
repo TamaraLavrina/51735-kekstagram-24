@@ -87,7 +87,7 @@ function closeModal() {
 }
 
 const onPictureClick = (evt, pictures) => {
-  if (!evt.target.closest('.picture')){
+  if (!evt.target.closest('.picture')) {
     return;
   }
 

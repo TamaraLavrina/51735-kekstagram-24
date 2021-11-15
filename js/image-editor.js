@@ -1,4 +1,4 @@
-import{ EFFECTS_DATA } from './effects-data.js';
+import{ effectsData } from './effects-data.js';
 
 const MAX_VALUE_DEFAULT = 100;
 const STEP = 25;
@@ -16,15 +16,19 @@ const effectsList = form.querySelector('.effects__list');
 
 let sizeValue = sizeScaleControl.value;
 const increaseSize = () => {
-  if (parseInt(sizeScaleControl.value, 10) !== MAX_VALUE_DEFAULT) {
+  if (parseInt(sizeScaleControl.value, 10) < MAX_VALUE_DEFAULT) {
     sizeValue= `${parseInt(sizeValue, 10) + STEP}%`;
     previewImg.style.transform = `scale(${parseInt(sizeValue, 10) / MAX_VALUE_DEFAULT})`;
     sizeScaleControl.value = sizeValue;
   }
+  else if (sizeScaleControl.value >= `${MAX_VALUE_DEFAULT}%`) {
+    sizeValue = `${MAX_VALUE_DEFAULT}%`;
+    previewImg.style.transform = `scale(${MAX_VALUE_DEFAULT / MAX_VALUE_DEFAULT})`;
+  }
 };
 
 const decreaseSize =  () => {
-  if (parseInt(sizeScaleControl.value, 10) !== MIN_VALUE) {
+  if (parseInt(sizeScaleControl.value, 10) > MIN_VALUE) {
     sizeValue = `${parseInt(sizeValue, 10) - STEP}%`;
     previewImg.style.transform = `scale(${parseInt(sizeValue, 10) / MAX_VALUE_DEFAULT})`;
     sizeScaleControl.value = sizeValue;
@@ -32,7 +36,7 @@ const decreaseSize =  () => {
 };
 
 const resetSize = () => {
-  sizeScaleControl.value = MAX_VALUE_DEFAULT;
+  sizeScaleControl.value = `${MAX_VALUE_DEFAULT}%`;
   previewImg.style.transform = `scale(${ MAX_VALUE_DEFAULT/MAX_VALUE_DEFAULT })`;
   buttonPlus.removeEventListener('click', increaseSize);
   buttonMinus.removeEventListener('click', decreaseSize);
@@ -41,7 +45,8 @@ const resetSize = () => {
 const onEffectsListChange = (evt) => {
   const effect = evt.target.value;
   previewImg.className = `effects__preview--${effect}`;
-  sizeScaleControl.value = MAX_VALUE_DEFAULT;
+  sizeScaleControl.value = `${MAX_VALUE_DEFAULT}%`;
+  sizeValue = sizeScaleControl.value;
   previewImg.style.transform = `scale(${ MAX_VALUE_DEFAULT/MAX_VALUE_DEFAULT })`;
 
   if (previewImg.classList.contains('effects__preview--none')) {
@@ -52,29 +57,29 @@ const onEffectsListChange = (evt) => {
     sliderBar.classList.remove('hidden');
   }
 
-  if (typeof EFFECTS_DATA[effect]  === 'undefined') {
+  if (typeof effectsData[effect]  === 'undefined') {
     return;
   }
 
   sliderElement.noUiSlider.updateOptions({
     range: {
-      min: EFFECTS_DATA[effect].min,
-      max: EFFECTS_DATA[effect].max,
+      min: effectsData[effect].min,
+      max: effectsData[effect].max,
     },
-    start: EFFECTS_DATA[effect].start,
-    step: EFFECTS_DATA[effect].step,
+    start: effectsData[effect].start,
+    step: effectsData[effect].step,
   });
 
   sliderElement.noUiSlider.on('update', (values, handle) => {
     effectLevel.value = values[handle];
-    previewImg.style.filter = `${EFFECTS_DATA[effect].filter}(${effectLevel.value}`;
+    previewImg.style.filter = `${effectsData[effect].filter}(${effectLevel.value}`;
 
     if (effect === 'phobos') {
-      previewImg.style.filter = `${EFFECTS_DATA[effect].filter}(${effectLevel.value}px`;
+      previewImg.style.filter = `${effectsData[effect].filter}(${effectLevel.value}px`;
     }
 
     if (effect === 'marvin') {
-      previewImg.style.filter = `${EFFECTS_DATA[effect].filter}(${effectLevel.value}%`;
+      previewImg.style.filter = `${effectsData[effect].filter}(${effectLevel.value}%`;
     }
   });
 };
@@ -119,4 +124,3 @@ const removeSlider = () => {
 };
 
 export {removeSlider, initImageEditor, resetSize};
-

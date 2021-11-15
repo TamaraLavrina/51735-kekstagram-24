@@ -4,7 +4,7 @@ import { sendData } from'./api.js';
 
 const DESCRIPTION_MAXLENGTH = 140;
 const MAX_HASHTAGS_VALUE = 5;
-const regex = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const REG_EXPRESSION = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const validationErrors = {
   regex: 'хэш-тег начинается с # (решётка), cостоит из букв и чисел и не может содержать пробелы и спецсимволы (#, @, $ и т. п., знаки пунктиуации, эмодзи), ' +
   'максимальная длина хэш-тега 20 символов, включая #',
@@ -31,6 +31,7 @@ const onUploadEscKeydown = (evt) => {
 const validateHashtags = (hashtags) => {
   const filledHashtags = hashtags.filter((element) => element !== '');
   const isDuplicateHashtag = new Set(filledHashtags).size !== filledHashtags.length;
+  const catchRegexError = (hashtag) => !REG_EXPRESSION.test(hashtag);
 
   if (isDuplicateHashtag) {
     return { state: 'invalid', error: 'duplicate' };
@@ -40,12 +41,8 @@ const validateHashtags = (hashtags) => {
     return { state: 'invalid', error: 'lengthLimit' };
   }
 
-  for (let i = 0; i < filledHashtags.length; i++) {
-    const hashtag = filledHashtags[i];
-
-    if (!regex.test(hashtag)) {
-      return { state: 'invalid', error: 'regex' };
-    }
+  if (filledHashtags.some(catchRegexError)) {
+    return { state: 'invalid', error: 'regex' };
   }
 
   return { state: 'valid', error: ''};
@@ -63,7 +60,6 @@ const onHashtagInput = (evt) => {
   hashtagInput.reportValidity();
 };
 
-// валидация описания
 const descriptionInputIsValid = () => {
   const valueLength = descriptionInput.value.length;
 
@@ -84,7 +80,6 @@ function onUploadFileChange () {
   descriptionInput.addEventListener('input', descriptionInputIsValid);
   closeButton.addEventListener('click', onCloseButtonClick);
   initImageEditor();
-  // effectsList.addEventListener('change', onEffectsListChange);
 }
 
 function onCloseButtonClick() {
